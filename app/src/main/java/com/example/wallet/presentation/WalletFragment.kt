@@ -11,6 +11,7 @@ import com.example.wallet.MainApplication
 import com.example.wallet.R
 import com.example.wallet.databinding.FragmentWalletBinding
 import com.example.wallet.domain.GetBalanceUseCase
+import com.example.wallet.domain.TopUpBalanceUseCase
 import javax.inject.Inject
 
 class WalletFragment : BaseFragment<FragmentWalletBinding>() {
@@ -18,8 +19,11 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
     @Inject
     lateinit var getBalanceUseCase: GetBalanceUseCase
 
+    @Inject
+    lateinit var topUpBalanceUseCase: TopUpBalanceUseCase
+
     private val viewModel: WalletViewModel by lazy {
-        val factory = WalletViewModel.Factory(getBalanceUseCase)
+        val factory = WalletViewModel.Factory(getBalanceUseCase, topUpBalanceUseCase)
         ViewModelProvider(this, factory)[WalletViewModel::class.java]
     }
 
@@ -40,6 +44,9 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
     private fun setupClickListeners() {
         binding.btnAddTransaction.setOnClickListener {
             findNavController().navigate(R.id.navigate_to_addTransactionFragment)
+        }
+        binding.btnTopUp.setOnClickListener {
+            viewModel.topUpBalance()
         }
     }
 

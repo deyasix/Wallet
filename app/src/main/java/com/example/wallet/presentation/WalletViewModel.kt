@@ -6,12 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.wallet.domain.GetBalanceUseCase
+import com.example.wallet.domain.TopUpBalanceUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class WalletViewModel @Inject constructor(private val getBalanceUseCase: GetBalanceUseCase) :
-    ViewModel() {
+class WalletViewModel @Inject constructor(
+    private val getBalanceUseCase: GetBalanceUseCase,
+    private val topUpBalanceUseCase: TopUpBalanceUseCase
+) : ViewModel() {
     private val _balance: MutableLiveData<BigDecimal> = MutableLiveData()
     val balance: LiveData<BigDecimal> get() = _balance
 
@@ -20,17 +24,24 @@ class WalletViewModel @Inject constructor(private val getBalanceUseCase: GetBala
     }
 
     private fun getBalance() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _balance.postValue(getBalanceUseCase())
         }
     }
 
-    class Factory constructor(
+    fun topUpBalance() {
+        viewModelScope.launch(Dispatchers.IO) {
+            topUpBalanceUseCase(1)
+        }
+    }
+
+    class Factory(
         private val getBalanceUseCase: GetBalanceUseCase,
+        private val topUpBalanceUseCase: TopUpBalanceUseCase
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return WalletViewModel(getBalanceUseCase) as T
+            return WalletViewModel(getBalanceUseCase, topUpBalanceUseCase) as T
         }
     }
 
