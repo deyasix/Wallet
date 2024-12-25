@@ -16,12 +16,12 @@ class TransactionsDataSourceImpl @Inject constructor(private val transactionsDao
         return transactionsDao.getBalance() ?: BigDecimal.ZERO
     }
 
-    override fun topUpBalance(value: Int) {
-        val newBalance = getBalance().plus(value.toBigDecimal())
+    override fun topUpBalance(value: BigDecimal) {
+        val newBalance = getBalance().plus(value)
         transactionsDao.insertTransaction(
             TransactionDto(
                 date = LocalDateTime.now(),
-                value = value.toBigDecimal(),
+                value = value,
                 category = null,
                 balanceAfter = newBalance
             )

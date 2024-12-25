@@ -23,15 +23,16 @@ class WalletViewModel @Inject constructor(
         getBalance()
     }
 
-    private fun getBalance() {
+    fun getBalance() {
         viewModelScope.launch(Dispatchers.IO) {
             _balance.postValue(getBalanceUseCase())
         }
     }
 
-    fun topUpBalance() {
+    fun topUpBalance(value: BigDecimal) {
         viewModelScope.launch(Dispatchers.IO) {
-            topUpBalanceUseCase(1)
+            topUpBalanceUseCase(value)
+            getBalance()
         }
     }
 

@@ -4,5 +4,5 @@ import java.math.BigDecimal
 
 interface TransactionsDataSource {
     fun getBalance(): BigDecimal
-    fun topUpBalance(value: Int)
+    fun topUpBalance(value: BigDecimal)
 }

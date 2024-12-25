@@ -46,7 +46,9 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
             findNavController().navigate(R.id.navigate_to_addTransactionFragment)
         }
         binding.btnTopUp.setOnClickListener {
-            viewModel.topUpBalance()
+            TopUpBalanceFragment.showDialog(this) {
+                viewModel.topUpBalance(it)
+            }
         }
     }
 
