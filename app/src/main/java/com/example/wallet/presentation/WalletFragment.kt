@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.wallet.MainApplication
 import com.example.wallet.R
 import com.example.wallet.databinding.FragmentWalletBinding
 import com.example.wallet.domain.GetBalanceUseCase
 import com.example.wallet.domain.GetBitcoinRateUseCase
+import com.example.wallet.domain.GetTransactionsUseCase
 import com.example.wallet.domain.TopUpBalanceUseCase
+import com.example.wallet.ext.getFormattedFullDateTime
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WalletFragment : BaseFragment<FragmentWalletBinding>() {
@@ -26,9 +30,19 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
     @Inject
     lateinit var getBitcoinRateUseCase: GetBitcoinRateUseCase
 
+    @Inject
+    lateinit var getTransactionsUseCase: GetTransactionsUseCase
+
+    private val transactionsAdapter = TransactionsAdapter()
+
     private val viewModel: WalletViewModel by lazy {
         val factory =
-            WalletViewModel.Factory(getBalanceUseCase, topUpBalanceUseCase, getBitcoinRateUseCase)
+            WalletViewModel.Factory(
+                getBalanceUseCase,
+                topUpBalanceUseCase,
+                getBitcoinRateUseCase,
+                getTransactionsUseCase
+            )
         ViewModelProvider(this, factory)[WalletViewModel::class.java]
     }
 
@@ -44,6 +58,7 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setupClickListeners()
         observeState()
+        setupAdapter()
         viewModel.getBalance()
     }
 
@@ -58,6 +73,10 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         }
     }
 
+    private fun setupAdapter() {
+        binding.rvTransactions.adapter = transactionsAdapter
+    }
+
     @SuppressLint("SetTextI18n")
     private fun observeState() {
         viewModel.balance.observe(viewLifecycleOwner) {
@@ -65,7 +84,14 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         }
         viewModel.btcRate.observe(viewLifecycleOwner) {
             binding.tvBtcRate.text = getString(R.string.btc_to_usd, it.rate)
-            binding.tvLastUpdated.text = getString(R.string.last_updated, it.date.toString())
+            binding.tvLastUpdated.text = getString(
+                R.string.last_updated, it.date.getFormattedFullDateTime()
+            )
+        }
+        viewModel.transactions.observe(viewLifecycleOwner) {
+            lifecycleScope.launch {
+                transactionsAdapter.submitData(it)
+            }
         }
     }
 

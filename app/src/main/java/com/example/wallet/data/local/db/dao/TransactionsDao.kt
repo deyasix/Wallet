@@ -1,5 +1,6 @@
 package com.example.wallet.data.local.db.dao
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -16,5 +17,8 @@ interface TransactionsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTransaction(transactionDto: TransactionDto)
+
+    @Query("SELECT * FROM ${DatabaseContract.Transactions.TABLE_TRANSACTIONS} ORDER BY id DESC")
+    fun getTransactions(): PagingSource<Int, TransactionDto>
 
 }

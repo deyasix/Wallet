@@ -6,13 +6,23 @@ enum class TransactionCategoryDto {
     GROCERIES, TAXI, ELECTRONICS, RESTAURANT, OTHER;
 
     companion object {
-        fun getDomainCategory(domainCategory: TransactionCategory): TransactionCategoryDto {
+        fun fromDomainCategory(domainCategory: TransactionCategory): TransactionCategoryDto {
             return when (domainCategory) {
                 TransactionCategory.ELECTRONICS -> ELECTRONICS
                 TransactionCategory.TAXI -> TAXI
                 TransactionCategory.GROCERIES -> GROCERIES
                 TransactionCategory.RESTAURANT -> RESTAURANT
                 TransactionCategory.OTHER -> OTHER
+            }
+        }
+
+        fun toDomainCategory(dto: TransactionCategoryDto): TransactionCategory {
+            return when (dto) {
+                ELECTRONICS -> TransactionCategory.ELECTRONICS
+                TAXI -> TransactionCategory.TAXI
+                GROCERIES -> TransactionCategory.GROCERIES
+                RESTAURANT -> TransactionCategory.RESTAURANT
+                OTHER -> TransactionCategory.OTHER
             }
         }
     }
