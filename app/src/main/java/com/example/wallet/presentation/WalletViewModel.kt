@@ -19,10 +19,6 @@ class WalletViewModel @Inject constructor(
     private val _balance: MutableLiveData<BigDecimal> = MutableLiveData()
     val balance: LiveData<BigDecimal> get() = _balance
 
-    init {
-        getBalance()
-    }
-
     fun getBalance() {
         viewModelScope.launch(Dispatchers.IO) {
             _balance.postValue(getBalanceUseCase())

@@ -3,6 +3,7 @@ package com.example.wallet.di
 import android.content.Context
 import com.example.wallet.domain.GetBalanceUseCase
 import com.example.wallet.domain.TopUpBalanceUseCase
+import com.example.wallet.presentation.AddTransactionFragment
 import com.example.wallet.presentation.WalletFragment
 import dagger.BindsInstance
 import dagger.Component
@@ -16,6 +17,7 @@ interface ApplicationComponent {
     fun topUpBalanceUseCase(): TopUpBalanceUseCase
 
     fun inject(walletFragment: WalletFragment)
+    fun inject(addTransactionFragment: AddTransactionFragment)
 
     @Component.Builder
     interface Builder {

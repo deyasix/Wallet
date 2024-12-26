@@ -39,6 +39,7 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setupClickListeners()
         observeState()
+        viewModel.getBalance()
     }
 
     private fun setupClickListeners() {

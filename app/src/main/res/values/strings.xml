@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Wallet</string>
+
+    <!-- Transaction Categories -->
+    <string name="groceries">Groceries</string>
+    <string name="taxi">Taxi</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="electronics">Electronics</string>
+    <string name="other">Other</string>
+
+    <string-array name="transaction_categories">
+        <item>@string/groceries</item>
+        <item>@string/taxi</item>
+        <item>@string/restaurant</item>
+        <item>@string/electronics</item>
+        <item>@string/other</item>
+    </string-array>
+
 </resources>

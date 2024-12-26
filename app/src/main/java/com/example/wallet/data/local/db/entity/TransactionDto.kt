@@ -11,6 +11,6 @@ data class TransactionDto(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val date: LocalDateTime,
     val value: BigDecimal,
-    val category: TransactionCategory?,
+    val category: TransactionCategoryDto?,
     val balanceAfter: BigDecimal
 )
