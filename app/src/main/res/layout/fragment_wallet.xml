@@ -1,18 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/tv_btc_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1 BTC = $ 99,017.83 USD" />
+
+    <TextView
+        android:id="@+id/tv_last_updated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@id/tv_btc_rate"
+        app:layout_constraintTop_toBottomOf="@id/tv_btc_rate"
+        tools:text="last updated: 2024-12-26 01:50" />
+
+    <TextView
         android:id="@+id/tv_balance_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
         android:text="Balance:"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_last_updated" />
 
     <TextView
         android:id="@+id/tv_balance"

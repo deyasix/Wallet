@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.example.wallet.data.local.db.AppDatabase
 import com.example.wallet.data.local.db.DatabaseContract
-import com.example.wallet.data.local.db.TransactionsDao
+import com.example.wallet.data.local.db.dao.BitcoinRatesDao
+import com.example.wallet.data.local.db.dao.TransactionsDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,5 +26,11 @@ class RoomModule {
     @Provides
     fun provideTransactionsDao(db: AppDatabase): TransactionsDao {
         return db.getTransactionsDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideBitcoinRatesDao(db: AppDatabase): BitcoinRatesDao {
+        return db.getBitcoinRatesDao()
     }
 }

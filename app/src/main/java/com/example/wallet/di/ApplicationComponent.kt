@@ -10,7 +10,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [RoomModule::class, DataSourceModule::class])
+@Component(modules = [RoomModule::class, DataSourceModule::class, NetworkModule::class])
 interface ApplicationComponent {
 
     fun getBalanceUseCase(): GetBalanceUseCase

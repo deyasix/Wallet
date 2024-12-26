@@ -11,6 +11,7 @@ import com.example.wallet.MainApplication
 import com.example.wallet.R
 import com.example.wallet.databinding.FragmentWalletBinding
 import com.example.wallet.domain.GetBalanceUseCase
+import com.example.wallet.domain.GetBitcoinRateUseCase
 import com.example.wallet.domain.TopUpBalanceUseCase
 import javax.inject.Inject
 
@@ -22,8 +23,12 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
     @Inject
     lateinit var topUpBalanceUseCase: TopUpBalanceUseCase
 
+    @Inject
+    lateinit var getBitcoinRateUseCase: GetBitcoinRateUseCase
+
     private val viewModel: WalletViewModel by lazy {
-        val factory = WalletViewModel.Factory(getBalanceUseCase, topUpBalanceUseCase)
+        val factory =
+            WalletViewModel.Factory(getBalanceUseCase, topUpBalanceUseCase, getBitcoinRateUseCase)
         ViewModelProvider(this, factory)[WalletViewModel::class.java]
     }
 
@@ -57,6 +62,10 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
     private fun observeState() {
         viewModel.balance.observe(viewLifecycleOwner) {
             binding.tvBalance.text = it.toString()
+        }
+        viewModel.btcRate.observe(viewLifecycleOwner) {
+            binding.tvBtcRate.text = getString(R.string.btc_to_usd, it.rate)
+            binding.tvLastUpdated.text = getString(R.string.last_updated, it.date.toString())
         }
     }
 

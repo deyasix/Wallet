@@ -1,9 +1,9 @@
 package com.example.wallet.data.local
 
 import android.util.Log
-import com.example.wallet.data.local.db.TransactionsDao
-import com.example.wallet.data.local.db.entity.TransactionCategoryDto
-import com.example.wallet.data.local.db.entity.TransactionDto
+import com.example.wallet.data.local.db.dao.TransactionsDao
+import com.example.wallet.data.local.db.dto.TransactionCategoryDto
+import com.example.wallet.data.local.db.dto.TransactionDto
 import com.example.wallet.domain.TransactionsDataSource
 import com.example.wallet.domain.entity.TransactionCategory
 import java.math.BigDecimal

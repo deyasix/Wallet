@@ -1,4 +1,4 @@
-package com.example.wallet.data.local.db.entity
+package com.example.wallet.data.local.db.dto
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

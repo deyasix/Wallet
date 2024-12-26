@@ -1,7 +1,7 @@
 package com.example.wallet.data.local.db.converters
 
 import androidx.room.TypeConverter
-import com.example.wallet.data.local.db.entity.TransactionCategoryDto
+import com.example.wallet.data.local.db.dto.TransactionCategoryDto
 
 class TransactionCategoryConverter {
     @TypeConverter

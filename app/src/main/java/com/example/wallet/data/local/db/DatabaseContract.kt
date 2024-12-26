@@ -6,4 +6,8 @@ object DatabaseContract {
     object Transactions {
         const val TABLE_TRANSACTIONS = "transactions"
     }
+
+    object BitcoinRates {
+        const val TABLE_BTC_RATES = "btc_rates"
+    }
 }

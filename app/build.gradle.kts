@@ -17,6 +17,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BTC_RATE_URL", "\"https://api.coindesk.com/v1/bpi/\"")
     }
 
     buildTypes {
@@ -37,6 +38,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -56,6 +58,12 @@ dependencies {
 
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

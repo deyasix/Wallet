@@ -16,4 +16,7 @@
         <item>@string/other</item>
     </string-array>
 
+    <string name="btc_to_usd">1 BTC = $ %s USD</string>
+    <string name="last_updated">last updated: %s</string>
+
 </resources>
