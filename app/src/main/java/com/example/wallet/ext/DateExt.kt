@@ -25,5 +25,5 @@ fun LocalDateTime.getFormattedFullDateTime(): String {
 object Patterns {
     const val MONTH_DAY_PATTERN = "LLLL dd"
     const val HOUR_MIN_MERIDIEM = "hh:mm a"
-    const val YEAR_MONTH_DAY = "y-MM-dd hh:mm:s a"
+    const val YEAR_MONTH_DAY = "y-MM-dd hh:mm:ss a"
 }
