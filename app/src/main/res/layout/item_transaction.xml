@@ -8,18 +8,19 @@
 
     <TextView
         android:id="@+id/tv_transaction_category"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@id/tv_transaction_value"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/groceries" />
+        tools:text="@string/balance_replenishment" />
 
     <TextView
         android:id="@+id/tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_transaction_category"
         tools:text="12:15" />
@@ -28,12 +29,25 @@
         android:id="@+id/tv_transaction_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:maxLines="1"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_transaction_category"
+        app:layout_constraintEnd_toStartOf="@id/tv_currency"
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toEndOf="@id/tv_transaction_category"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="-25.09 BTC" />
+        tools:text="-25.09" />
+
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="4dp"
+        android:text="@string/btc"
+        android:textSize="18sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_transaction_value"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_transaction_value" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

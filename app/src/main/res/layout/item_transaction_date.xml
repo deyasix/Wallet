@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:padding="4dp">
+    android:layout_gravity="center">
 
     <TextView
         android:id="@+id/tv_day"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        tools:text="12 June" />
+        android:gravity="center"
+        android:paddingVertical="8dp"
+        tools:text="June 12" />
 </FrameLayout>

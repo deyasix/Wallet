@@ -19,4 +19,13 @@
     <string name="btc_to_usd">1 BTC = $ %s USD</string>
     <string name="last_updated">last updated: %s</string>
     <string name="balance_replenishment">Balance replenishment</string>
+    <string name="btc">BTC</string>
+    <string name="top_up">Top up</string>
+    <string name="add_transaction">Add transaction</string>
+    <string name="balance">Balance:</string>
+    <string name="add">Add</string>
+    <string name="please_enter_a_value_for_the_transaction">Please, enter a value for the transaction and select a category</string>
+    <string name="enter_a_value_for_top_up">Enter a value for top-up</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
 </resources>

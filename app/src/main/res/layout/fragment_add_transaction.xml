@@ -7,16 +7,40 @@
     android:background="@color/white"
     android:padding="16dp">
 
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="8dp"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:labelFor="@id/til_value"
+        android:padding="8dp"
+        android:text="@string/please_enter_a_value_for_the_transaction"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/til_value"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Enter a value for transaction"
         app:layout_constraintBottom_toTopOf="@id/btn_add_transaction"
         app:layout_constraintEnd_toStartOf="@id/spinner_category"
         app:layout_constraintHorizontal_weight="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -45,11 +69,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Add"
+        android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/til_value" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

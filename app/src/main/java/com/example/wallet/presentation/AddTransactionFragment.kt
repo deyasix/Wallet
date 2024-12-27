@@ -7,13 +7,15 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.wallet.MainApplication
 import com.example.wallet.R
 import com.example.wallet.databinding.FragmentAddTransactionBinding
-import com.example.wallet.domain.DoTransactionUseCase
+import com.example.wallet.di.GenericViewModelFactory
 import com.example.wallet.domain.entity.TransactionCategory
+import com.example.wallet.ext.requestFocusAndOpenIme
 import javax.inject.Inject
 
 class AddTransactionFragment : BaseFragment<FragmentAddTransactionBinding>() {
@@ -21,12 +23,9 @@ class AddTransactionFragment : BaseFragment<FragmentAddTransactionBinding>() {
         get() = FragmentAddTransactionBinding::inflate
 
     @Inject
-    lateinit var doTransactionUseCase: DoTransactionUseCase
+    lateinit var factory: GenericViewModelFactory<AddTransactionViewModel>
 
-    private val viewModel by lazy {
-        val factory = AddTransactionViewModel.Factory(doTransactionUseCase)
-        ViewModelProvider(this, factory)[AddTransactionViewModel::class.java]
-    }
+    private val viewModel: AddTransactionViewModel by viewModels { factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +34,8 @@ class AddTransactionFragment : BaseFragment<FragmentAddTransactionBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.edValue.requestFocusAndOpenIme()
+
         setupClickListeners()
         observeState()
         setupSpinner()
@@ -47,12 +48,20 @@ class AddTransactionFragment : BaseFragment<FragmentAddTransactionBinding>() {
                 viewModel.addTransaction(value)
             }
         }
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
     private fun observeState() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
             if (!it) findNavController().popBackStack()
         }
+        viewModel.isAddEnabled.observe(viewLifecycleOwner) {
+            binding.btnAddTransaction.isEnabled = it
+        }
+
+        binding.edValue.doAfterTextChanged { viewModel.validate(it.toString()) }
     }
 
     private fun setupSpinner() {

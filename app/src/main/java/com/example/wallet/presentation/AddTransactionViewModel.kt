@@ -3,7 +3,6 @@ package com.example.wallet.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.wallet.domain.DoTransactionUseCase
 import com.example.wallet.domain.entity.TransactionCategory
@@ -17,6 +16,9 @@ class AddTransactionViewModel @Inject constructor(private val doTransactionUseCa
 
     private var selectedCategory: TransactionCategory? = null
 
+    private val _isAddEnabled: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isAddEnabled: LiveData<Boolean> get() = _isAddEnabled
+
     private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
@@ -28,16 +30,13 @@ class AddTransactionViewModel @Inject constructor(private val doTransactionUseCa
         }
     }
 
-    fun selectCategory(category: TransactionCategory) {
-        selectedCategory = category
+    fun validate(text: String) {
+        runCatching { text.toBigDecimal() }.onSuccess { _isAddEnabled.postValue(it != BigDecimal.ZERO) }
+            .onFailure { _isAddEnabled.postValue(false) }
     }
 
-    class Factory(private val doTransactionUseCase: DoTransactionUseCase) :
-        ViewModelProvider.Factory {
-
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return AddTransactionViewModel(doTransactionUseCase) as T
-        }
+    fun selectCategory(category: TransactionCategory) {
+        selectedCategory = category
     }
 
 }

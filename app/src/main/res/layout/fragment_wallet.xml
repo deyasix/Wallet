@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
-        android:text="Balance:"
+        android:text="@string/balance"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_last_updated" />
@@ -38,27 +38,45 @@
         android:id="@+id/tv_balance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:text="0.00"
+        android:layout_marginStart="6dp"
+        android:ellipsize="end"
+        android:gravity="end"
+        android:maxLines="1"
         android:textSize="22sp"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_balance_title"
-        app:layout_constraintStart_toEndOf="@id/tv_balance_title" />
+        app:layout_constraintEnd_toStartOf="@id/tv_currency"
+        app:layout_constraintStart_toEndOf="@id/tv_balance_title"
+        app:layout_constraintWidth="0dp"
+        tools:text="29.08" />
+
+    <TextView
+        android:id="@+id/tv_currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="@string/btc"
+        android:textSize="22sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_balance"
+        app:layout_constraintEnd_toStartOf="@id/btn_top_up"
+        app:layout_constraintStart_toEndOf="@id/tv_balance" />
 
     <Button
         android:id="@+id/btn_top_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:text="Top up"
+        android:text="@string/top_up"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_balance"
-        app:layout_constraintStart_toEndOf="@id/tv_balance" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toEndOf="@id/tv_currency" />
 
     <Button
         android:id="@+id/btn_add_transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="20dp"
-        android:text="Add transaction"
+        android:text="@string/add_transaction"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_balance_title" />
 
@@ -66,6 +84,7 @@
         android:id="@+id/rv_transactions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_add_transaction"

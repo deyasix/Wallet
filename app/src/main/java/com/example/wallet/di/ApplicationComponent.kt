@@ -1,8 +1,6 @@
 package com.example.wallet.di
 
 import android.content.Context
-import com.example.wallet.domain.GetBalanceUseCase
-import com.example.wallet.domain.TopUpBalanceUseCase
 import com.example.wallet.presentation.AddTransactionFragment
 import com.example.wallet.presentation.WalletFragment
 import dagger.BindsInstance
@@ -12,9 +10,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [RoomModule::class, DataSourceModule::class, NetworkModule::class])
 interface ApplicationComponent {
-
-    fun getBalanceUseCase(): GetBalanceUseCase
-    fun topUpBalanceUseCase(): TopUpBalanceUseCase
 
     fun inject(walletFragment: WalletFragment)
     fun inject(addTransactionFragment: AddTransactionFragment)

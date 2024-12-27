@@ -3,7 +3,6 @@ package com.example.wallet.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -14,7 +13,6 @@ import com.example.wallet.domain.TopUpBalanceUseCase
 import com.example.wallet.domain.entity.BitcoinRate
 import com.example.wallet.domain.entity.TransactionListItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -53,23 +51,6 @@ class WalletViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             topUpBalanceUseCase(value)
             getBalance()
-        }
-    }
-
-    class Factory(
-        private val getBalanceUseCase: GetBalanceUseCase,
-        private val topUpBalanceUseCase: TopUpBalanceUseCase,
-        private val getBitcoinRateUseCase: GetBitcoinRateUseCase,
-        private val getTransactionsUseCase: GetTransactionsUseCase
-    ) : ViewModelProvider.Factory {
-
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return WalletViewModel(
-                getBalanceUseCase,
-                topUpBalanceUseCase,
-                getBitcoinRateUseCase,
-                getTransactionsUseCase
-            ) as T
         }
     }
 

@@ -12,14 +12,25 @@
         android:background="@color/white"
         android:padding="16dp">
 
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/til_value"
+            android:padding="8dp"
+            android:text="@string/enter_a_value_for_top_up"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Enter a value for top up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ed_value"
@@ -37,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Cancel"
+            android:text="@string/cancel"
             app:layout_constraintEnd_toStartOf="@id/btn_top_up"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_value" />
@@ -47,10 +58,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="16dp"
-            android:text="Top Up"
+            android:enabled="false"
+            android:text="@string/confirm"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_cancel"
             app:layout_constraintTop_toBottomOf="@id/til_value" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

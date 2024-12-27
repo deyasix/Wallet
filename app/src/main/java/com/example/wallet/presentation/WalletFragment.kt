@@ -5,46 +5,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.wallet.MainApplication
 import com.example.wallet.R
 import com.example.wallet.databinding.FragmentWalletBinding
-import com.example.wallet.domain.GetBalanceUseCase
-import com.example.wallet.domain.GetBitcoinRateUseCase
-import com.example.wallet.domain.GetTransactionsUseCase
-import com.example.wallet.domain.TopUpBalanceUseCase
+import com.example.wallet.di.GenericViewModelFactory
+import com.example.wallet.ext.getCurrencyValue
 import com.example.wallet.ext.getFormattedFullDateTime
+import com.example.wallet.presentation.TopUpBalanceFragment.Companion.TOP_UP_RESULT_KEY
+import com.example.wallet.presentation.TopUpBalanceFragment.Companion.TOP_UP_REQUEST_KEY
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class WalletFragment : BaseFragment<FragmentWalletBinding>() {
 
     @Inject
-    lateinit var getBalanceUseCase: GetBalanceUseCase
-
-    @Inject
-    lateinit var topUpBalanceUseCase: TopUpBalanceUseCase
-
-    @Inject
-    lateinit var getBitcoinRateUseCase: GetBitcoinRateUseCase
-
-    @Inject
-    lateinit var getTransactionsUseCase: GetTransactionsUseCase
+    lateinit var factory: GenericViewModelFactory<WalletViewModel>
 
     private val transactionsAdapter = TransactionsAdapter()
 
-    private val viewModel: WalletViewModel by lazy {
-        val factory =
-            WalletViewModel.Factory(
-                getBalanceUseCase,
-                topUpBalanceUseCase,
-                getBitcoinRateUseCase,
-                getTransactionsUseCase
-            )
-        ViewModelProvider(this, factory)[WalletViewModel::class.java]
-    }
+    private val viewModel: WalletViewModel by viewModels { factory }
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentWalletBinding
         get() = FragmentWalletBinding::inflate
@@ -59,6 +42,7 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
         setupClickListeners()
         observeState()
         setupAdapter()
+        setupTopUpFragmentResult()
         viewModel.getBalance()
     }
 
@@ -67,8 +51,14 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
             findNavController().navigate(R.id.navigate_to_addTransactionFragment)
         }
         binding.btnTopUp.setOnClickListener {
-            TopUpBalanceFragment.showDialog(this) {
-                viewModel.topUpBalance(it)
+            TopUpBalanceFragment.showDialog(this)
+        }
+    }
+
+    private fun setupTopUpFragmentResult() {
+        setFragmentResultListener(TOP_UP_REQUEST_KEY) { _, bundle ->
+            bundle.getString(TOP_UP_RESULT_KEY)?.let {
+                viewModel.topUpBalance(it.toBigDecimal())
             }
         }
     }
@@ -80,7 +70,7 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
     @SuppressLint("SetTextI18n")
     private fun observeState() {
         viewModel.balance.observe(viewLifecycleOwner) {
-            binding.tvBalance.text = it.toString()
+            binding.tvBalance.text = it.getCurrencyValue()
         }
         viewModel.btcRate.observe(viewLifecycleOwner) {
             binding.tvBtcRate.text = getString(R.string.btc_to_usd, it.rate)

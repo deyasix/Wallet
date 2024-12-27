@@ -9,6 +9,7 @@ import com.example.wallet.R
 import com.example.wallet.databinding.ItemTransactionBinding
 import com.example.wallet.databinding.ItemTransactionDateBinding
 import com.example.wallet.domain.entity.TransactionListItem
+import com.example.wallet.ext.getCurrencyValue
 import com.example.wallet.ext.getFormattedDay
 import com.example.wallet.ext.getFormatterForTime
 import java.math.BigDecimal
@@ -23,9 +24,12 @@ class TransactionsAdapter :
                 val titleRestId = item.category?.textResId ?: R.string.balance_replenishment
                 tvTransactionCategory.text = root.context.getString(titleRestId)
                 val isTopUp = item.value > BigDecimal.ZERO
-                val valueText = if (isTopUp) "+${item.value}" else item.value.toString()
+                val currencyValue = item.value.getCurrencyValue()
+                val valueText = if (isTopUp) "+$currencyValue" else currencyValue
                 tvTransactionValue.text = valueText
-                tvTransactionValue.setTextColor(root.context.getColor(if (isTopUp) R.color.green else R.color.red))
+                val valueColor = root.context.getColor(if (isTopUp) R.color.green else R.color.red)
+                tvTransactionValue.setTextColor(valueColor)
+                tvCurrency.setTextColor(valueColor)
                 tvDate.text = item.date.format(getFormatterForTime())
             }
         }
