@@ -43,7 +43,7 @@ class WalletViewModel @Inject constructor(
 
     private fun getBitcoinRate() {
         viewModelScope.launch(Dispatchers.IO) {
-            _btcRate.postValue(getBitcoinRateUseCase())
+            _btcRate.postValue(getBitcoinRateUseCase.invoke())
         }
     }
 

@@ -54,45 +54,49 @@ class AddTransactionFragment : BaseFragment<FragmentAddTransactionBinding>() {
     }
 
     private fun observeState() {
-        viewModel.isLoading.observe(viewLifecycleOwner) {
-            if (!it) findNavController().popBackStack()
-        }
-        viewModel.isAddEnabled.observe(viewLifecycleOwner) {
-            binding.btnAddTransaction.isEnabled = it
-        }
+        with(viewModel) {
+            isLoading.observe(viewLifecycleOwner) {
+                if (!it) findNavController().popBackStack()
+            }
+            isAddEnabled.observe(viewLifecycleOwner) {
+                binding.btnAddTransaction.isEnabled = it
+            }
 
-        binding.edValue.doAfterTextChanged { viewModel.validate(it.toString()) }
+            binding.edValue.doAfterTextChanged { validate(it.toString()) }
+        }
     }
 
     private fun setupSpinner() {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.transaction_categories,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinnerCategory.adapter = adapter
-        }
-        binding.spinnerCategory.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    (view as? TextView)?.text?.takeIf { it.isNotEmpty() }?.let { text ->
-                        val category =
-                            TransactionCategory.getCategoryByText(requireContext(), text.toString())
-                        category?.let {
-                            viewModel.selectCategory(category)
-                        }
-                    }
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-
+        with(binding.spinnerCategory) {
+            ArrayAdapter.createFromResource(
+                requireContext(),
+                R.array.transaction_categories,
+                android.R.layout.simple_spinner_item
+            ).also { arrayAdapter ->
+                arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter = arrayAdapter
             }
+            onItemSelectedListener = onCategorySelectedListener
+        }
     }
 
+    private val onCategorySelectedListener = object : AdapterView.OnItemSelectedListener {
+        override fun onItemSelected(
+            parent: AdapterView<*>?,
+            view: View?,
+            position: Int,
+            id: Long
+        ) {
+            (view as? TextView)?.text?.takeIf { it.isNotEmpty() }?.let { text ->
+                val category =
+                    TransactionCategory.getCategoryByText(requireContext(), text.toString())
+                category?.let {
+                    viewModel.selectCategory(category)
+                }
+            }
+        }
+
+        override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+    }
 }

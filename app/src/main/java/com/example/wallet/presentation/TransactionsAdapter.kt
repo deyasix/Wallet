@@ -47,7 +47,11 @@ class TransactionsAdapter :
             oldItem: TransactionListItem,
             newItem: TransactionListItem
         ): Boolean {
-            return oldItem == newItem
+            return if (oldItem is TransactionListItem.Transaction && newItem is TransactionListItem.Transaction) {
+                oldItem.id == newItem.id
+            } else if (oldItem is TransactionListItem.TransactionDate && newItem is TransactionListItem.TransactionDate) {
+                oldItem.date == newItem.date
+            } else false
         }
 
         override fun areContentsTheSame(
@@ -55,13 +59,6 @@ class TransactionsAdapter :
             newItem: TransactionListItem
         ): Boolean {
             return oldItem == newItem
-        }
-
-        override fun getChangePayload(
-            oldItem: TransactionListItem,
-            newItem: TransactionListItem
-        ): Any {
-            return newItem
         }
     }
 

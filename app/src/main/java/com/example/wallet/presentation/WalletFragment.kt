@@ -69,18 +69,20 @@ class WalletFragment : BaseFragment<FragmentWalletBinding>() {
 
     @SuppressLint("SetTextI18n")
     private fun observeState() {
-        viewModel.balance.observe(viewLifecycleOwner) {
-            binding.tvBalance.text = it.getCurrencyValue()
-        }
-        viewModel.btcRate.observe(viewLifecycleOwner) {
-            binding.tvBtcRate.text = getString(R.string.btc_to_usd, it.rate)
-            binding.tvLastUpdated.text = getString(
-                R.string.last_updated, it.date.getFormattedFullDateTime()
-            )
-        }
-        viewModel.transactions.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                transactionsAdapter.submitData(it)
+        with(viewModel) {
+            balance.observe(viewLifecycleOwner) {
+                binding.tvBalance.text = it.getCurrencyValue()
+            }
+            btcRate.observe(viewLifecycleOwner) {
+                binding.tvBtcRate.text = getString(R.string.btc_to_usd, it.rate)
+                binding.tvLastUpdated.text = getString(
+                    R.string.last_updated, it.date.getFormattedFullDateTime()
+                )
+            }
+            transactions.observe(viewLifecycleOwner) {
+                lifecycleScope.launch {
+                    transactionsAdapter.submitData(it)
+                }
             }
         }
     }

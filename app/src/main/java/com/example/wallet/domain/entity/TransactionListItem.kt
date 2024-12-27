@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 
 sealed class TransactionListItem {
     data class Transaction(
+        val id: Int,
         val value: BigDecimal,
         val date: LocalDateTime,
         val category: TransactionCategory?

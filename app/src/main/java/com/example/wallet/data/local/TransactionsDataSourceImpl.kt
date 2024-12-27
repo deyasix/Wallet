@@ -59,14 +59,7 @@ class TransactionsDataSourceImpl @Inject constructor(private val transactionsDao
             config = PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = PAGE_SIZE),
             pagingSourceFactory = { transactionsDao.getTransactions() }
         ).flow.map {
-            it.map { transactionDto ->
-                TransactionListItem.Transaction(
-                    transactionDto.value,
-                    transactionDto.date,
-                    transactionDto.category?.let { category ->
-                        TransactionCategoryDto.toDomainCategory(category)
-                    })
-            }
+            it.map { transactionDto -> TransactionDto.toDomainTransaction(transactionDto) }
                 .insertSeparators { transaction: TransactionListItem.Transaction?, transaction2: TransactionListItem.Transaction? ->
                     val isDifferentDate =
                         transaction?.date?.toLocalDate() != transaction2?.date?.toLocalDate()

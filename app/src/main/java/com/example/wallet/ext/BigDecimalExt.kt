@@ -4,7 +4,6 @@ import android.icu.text.DecimalFormat
 import java.math.BigDecimal
 
 fun BigDecimal.getCurrencyValue(): String {
-    val formatter = DecimalFormat()
-    formatter.minimumFractionDigits = 2
+    val formatter = DecimalFormat("#0.00##")
     return formatter.format(this)
 }
